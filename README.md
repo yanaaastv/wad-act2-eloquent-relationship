@@ -1,6 +1,7 @@
 # Insurance Policy Management System (Activity 2)
 
-(!(https://github.com/user-attachments/assets/d1e40366-67e3-49c6-93ca-3c0b67beb00d))
+(!![WAD-act2](https://github.com/user-attachments/assets/f32d897d-f51e-467e-a554-2efae7491193)
+))
 
 ### [ERD Link here!](https://drive.google.com/file/d/1fPQR6L1Lrnw31vclpTZ2dFhV73vcYWa9/view?usp=sharing)
 
