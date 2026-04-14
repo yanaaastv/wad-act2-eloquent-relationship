@@ -3,20 +3,32 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
+//use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
-#[Fillable(['name', 'email', 'password'])]
-
 class Customer extends Model
 {
-    public function profile(): HasOne {
-        return $this->hasOne(CustomerProfile::class, 'user_id', 'user_id');
+    protected $fillable = ['name', 'user_id', 'email', 'password'];
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(CustomerProfile::class);
     }
 
-    public function policies(): HasMany {
-        return $this->hasMany(Policy::class, 'user_id', 'user_id');
+    public function policies(): HasMany
+    {
+        return $this->hasMany(Policy::class);
+    }
+
+    public function vehicles(): HasMany
+    {
+        return $this->hasMany(Vehicle::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
