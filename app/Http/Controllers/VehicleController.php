@@ -35,16 +35,22 @@ class VehicleController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'make' => 'required|string|max:255',
-            'model' => 'required|string|max:255',
-            'year' => 'required|numeric',
-        ]);
+        'customer_id'  => 'required|exists:customers,id',
+        'plate_number' => 'required|string|unique:vehicles',
+        'brand'        => 'required|string',
+        'model'        => 'required|string',
+        'year'         => 'required|integer',
+        'color'        => 'required|string',
+    ]);
 
         Vehicle::create([
-            'make' => $request->make,
+            'customer_id' => $request->customer_id,
+            'plate_number' => $request->plate_number,
+            'brand' => $request->brand,
             'model' => $request->model,
             'year' => $request->year,
-            'user_id' => Auth::id(), // Use Auth::id() instead of auth()->id()
+            'color' => $request->color,
+            'user_id' => Auth::id(),
         ]);
 
         return redirect()->route('vehicles.index')->with('success', 'Vehicle created!');
@@ -67,12 +73,12 @@ class VehicleController extends Controller
         }
 
         $request->validate([
-            'make' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
             'model' => 'required|string|max:255',
             'year' => 'required|numeric',
         ]);
 
-        $vehicle->update($request->all());
+        $vehicle->update($request->only(['brand', 'model', 'year']));
 
         return redirect()->route('vehicles.index')->with('success', 'Vehicle updated!');
     }

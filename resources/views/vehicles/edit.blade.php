@@ -11,8 +11,8 @@
                     @method('PUT')
 
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Make:</label>
-                        <input type="text" name="make" value="{{ $vehicle->make }}" class="w-full border-gray-300 rounded-md shadow-sm" required>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Brand:</label>
+                        <input type="text" name="brand" value="{{ $vehicle->brand }}" class="w-full border-gray-300 rounded-md shadow-sm" required>
                     </div>
 
                     <div class="mb-4">

@@ -3,62 +3,76 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Policy;
 
 class PolicyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $policies = Policy::all();
+        return view('policies.index', compact('policies'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('policies.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        // 1. Validation (Kasama ang lahat ng $fillable fields)
+        $request->validate([
+            'policy_number' => 'required|unique:policies,policy_number',
+            'start_date'    => 'required|date',
+            'end_date'      => 'required|date|after_or_equal:start_date',
+            'status'        => 'required',
+        ]);
+
+        // 2. Pag-save sa database gamit ang kumpletong data
+        Policy::create([
+            'policy_number' => $request->policy_number,
+            'start_date'    => $request->start_date,
+            'end_date'      => $request->end_date,
+            'status'        => $request->status,
+        ]);
+
+        return redirect()->route('policies.index')->with('success', 'Policy created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Policy $policy)
     {
-        //
+        return view('policies.show', compact('policy'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Policy $policy)
     {
-        //
+        return view('policies.edit', compact('policy'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Policy $policy)
     {
-        //
+        // Validation para sa update (kailangan isama ang ID para hindi mag-error ang unique check)
+        $request->validate([
+            'policy_number' => 'required|unique:policies,policy_number,' . $policy->id,
+            'start_date'    => 'required|date',
+            'end_date'      => 'required|date|after_or_equal:start_date',
+            'status'        => 'required',
+        ]);
+
+        // I-update ang lahat ng fields
+        $policy->update([
+            'policy_number' => $request->policy_number,
+            'start_date'    => $request->start_date,
+            'end_date'      => $request->end_date,
+            'status'        => $request->status,
+        ]);
+
+        return redirect()->route('policies.index')->with('success', 'Policy updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Policy $policy)
     {
-        //
+        $policy->delete();
+        return redirect()->route('policies.index')->with('success', 'Policy deleted successfully!');
     }
 }

@@ -1,39 +1,84 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Vehicles</h2>
-            <a href="{{ route('vehicles.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">+ Add Vehicle</a>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Vehicle Management') }}
+            </h2>
+            <a href="{{ route('vehicles.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 transition">
+                + Add Vehicle
+            </a>
         </div>
     </x-slot>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead>
-                        <tr>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Make/Model</th>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Year</th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        @foreach($vehicles as $vehicle)
-                        <tr>
-                            <td class="px-6 py-4">{{ $vehicle->make }} {{ $vehicle->model }}</td>
-                            <td class="px-6 py-4">{{ $vehicle->year }}</td>
-                            <td class="px-6 py-4 text-right">
-                                <a href="{{ route('vehicles.edit', $vehicle) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
-                                @if(auth()->user()->role === 'admin')
-                                <form action="{{ route('vehicles.destroy', $vehicle) }}" method="POST" class="inline">
-                                    @csrf @method('DELETE')
-                                    <button class="text-red-600 hover:text-red-900">Delete</button>
-                                </form>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="overflow-x-auto">
+                    {{-- Nilagyan ko ng 'table-fixed' para hindi gumalaw ang sukat ng columns --}}
+                    <table class="w-full text-left text-sm text-gray-600 dark:text-gray-300 table-fixed">
+                        <thead class="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 text-xs uppercase text-gray-500 dark:text-gray-400">
+                            <tr>
+                                {{-- Itinakda ang specific width sa bawat header --}}
+                                <th class="px-6 py-4 font-semibold tracking-wider w-[12%]">Customer ID</th>
+                                <th class="px-6 py-4 font-semibold tracking-wider w-[18%]">Plate Number</th>
+                                <th class="px-6 py-4 font-semibold tracking-wider w-[15%]">Model</th>
+                                <th class="px-6 py-4 font-semibold tracking-wider w-[15%]">Brand</th>
+                                <th class="px-6 py-4 font-semibold tracking-wider w-[10%]">Year</th>
+                                <th class="px-6 py-4 font-semibold tracking-wider w-[15%]">Color</th>
+                                <th class="px-6 py-4 font-semibold tracking-wider w-[15%] text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach($vehicles as $vehicle)
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                                {{-- 1. Customer ID --}}
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-gray-100 italic">
+                                    #{{ $vehicle->customer_id }}
+                                </td>
+
+                                {{-- 2. Plate Number --}}
+                                <td class="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400 font-mono">
+                                    {{ $vehicle->plate_number }}
+                                </td>
+
+                                {{-- 3. Model --}}
+                                <td class="px-6 py-4 truncate">{{ $vehicle->model }}</td>
+
+                                {{-- 4. Brand --}}
+                                <td class="px-6 py-4 truncate">{{ $vehicle->brand }}</td>
+
+                                {{-- 5. Year --}}
+                                <td class="px-6 py-4 font-mono">{{ $vehicle->year }}</td>
+
+                                {{-- 6. Color --}}
+                                <td class="px-6 py-4">
+                                    <span class="inline-block px-2 py-1 rounded border border-gray-500 text-[10px] leading-tight font-semibold">
+                                        {{ strtoupper($vehicle->color) }}
+                                    </span>
+                                </td>
+
+                                {{-- 7. Actions --}}
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex justify-end items-center gap-4">
+                                        <a href="{{ route('vehicles.edit', $vehicle) }}" class="font-medium text-blue-600 dark:text-blue-400 hover:underline">
+                                            Edit
+                                        </a>
+
+                                        @if(auth()->user()->role === 'admin')
+                                        <form action="{{ route('vehicles.destroy', $vehicle) }}" method="POST" class="m-0 inline-block">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="font-medium text-red-600 dark:text-red-400 hover:underline" onclick="return confirm('Sigurado ka ba?')">
+                                                Delete
+                                            </button>
+                                        </form>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

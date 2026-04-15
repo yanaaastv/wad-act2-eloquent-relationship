@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Vehicle extends Model
 {
-    protected $fillable = ['plate_number', 'customer_id', 'brand', 'model', 'year', 'color'];
+    protected $primaryKey = 'vehicle_id';
+
+    protected $fillable = ['plate_number', 'customer_id', 'brand', 'model', 'year', 'color', 'user_id'];
 
     public function customer(): BelongsTo
     {

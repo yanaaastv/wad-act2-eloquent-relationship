@@ -13,11 +13,11 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
-| AUTH USERS ONLY
+| AUTHENTICATED USERS (General Access)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->group(function () {
@@ -27,18 +27,19 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // CRUD MODULES
+    // Isang line lang dapat ito. Huwag mong paghiwalayin ang index/show sa create/edit.
     Route::resource('customers', CustomerController::class);
-    Route::resource('policies', PolicyController::class);
     Route::resource('vehicles', VehicleController::class);
+    Route::resource('policies', PolicyController::class);
 });
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN ONLY
+| ADMIN ONLY (Protected Access)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'admin'])->group(function () {
+    // User Management - Tanggalin ang extra middleware sa loob dahil meron na sa labas
     Route::resource('users', UserController::class);
 });
 

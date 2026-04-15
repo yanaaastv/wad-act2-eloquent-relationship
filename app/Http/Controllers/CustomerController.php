@@ -18,6 +18,11 @@ class CustomerController extends Controller
         return view('customers.create');
     }
 
+    public function show(Customer $customer)
+    {
+        return view('customers.show', compact('customer'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([

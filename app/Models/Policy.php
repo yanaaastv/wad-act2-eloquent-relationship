@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Policy extends Model
 {
-    protected $fillable = ['policy_number', 'start_date', 'end_date', 'status'];
+    protected $fillable = ['policy_number', 'customer_id', 'start_date', 'end_date', 'status'];
 
     public function customer(): BelongsTo
     {

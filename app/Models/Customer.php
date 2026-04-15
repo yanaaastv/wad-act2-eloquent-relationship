@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Customer extends Model
 {
     protected $fillable = ['name', 'user_id', 'email', 'password'];
+    protected $table = 'customers';
 
     public function profile(): HasOne
     {
