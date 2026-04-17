@@ -20,7 +20,6 @@ class PolicyController extends Controller
 
     public function store(Request $request)
     {
-        // 1. Validation (Kasama ang lahat ng $fillable fields)
         $request->validate([
             'policy_number' => 'required|unique:policies,policy_number',
             'start_date'    => 'required|date',
@@ -28,7 +27,6 @@ class PolicyController extends Controller
             'status'        => 'required',
         ]);
 
-        // 2. Pag-save sa database gamit ang kumpletong data
         Policy::create([
             'policy_number' => $request->policy_number,
             'start_date'    => $request->start_date,
@@ -51,7 +49,6 @@ class PolicyController extends Controller
 
     public function update(Request $request, Policy $policy)
     {
-        // Validation para sa update (kailangan isama ang ID para hindi mag-error ang unique check)
         $request->validate([
             'policy_number' => 'required|unique:policies,policy_number,' . $policy->id,
             'start_date'    => 'required|date',
@@ -59,7 +56,6 @@ class PolicyController extends Controller
             'status'        => 'required',
         ]);
 
-        // I-update ang lahat ng fields
         $policy->update([
             'policy_number' => $request->policy_number,
             'start_date'    => $request->start_date,

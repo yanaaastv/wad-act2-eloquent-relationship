@@ -14,11 +14,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="overflow-x-auto">
-                    {{-- Nilagyan ko ng 'table-fixed' para hindi gumalaw ang sukat ng columns --}}
                     <table class="w-full text-left text-sm text-gray-600 dark:text-gray-300 table-fixed">
                         <thead class="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 text-xs uppercase text-gray-500 dark:text-gray-400">
                             <tr>
-                                {{-- Itinakda ang specific width sa bawat header --}}
                                 <th class="px-6 py-4 font-semibold tracking-wider w-[12%]">Customer ID</th>
                                 <th class="px-6 py-4 font-semibold tracking-wider w-[18%]">Plate Number</th>
                                 <th class="px-6 py-4 font-semibold tracking-wider w-[15%]">Model</th>
@@ -31,33 +29,20 @@
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($vehicles as $vehicle)
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                                {{-- 1. Customer ID --}}
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-gray-100 italic">
                                     #{{ $vehicle->customer_id }}
                                 </td>
-
-                                {{-- 2. Plate Number --}}
                                 <td class="px-6 py-4 font-bold text-indigo-600 dark:text-indigo-400 font-mono">
                                     {{ $vehicle->plate_number }}
                                 </td>
-
-                                {{-- 3. Model --}}
                                 <td class="px-6 py-4 truncate">{{ $vehicle->model }}</td>
-
-                                {{-- 4. Brand --}}
                                 <td class="px-6 py-4 truncate">{{ $vehicle->brand }}</td>
-
-                                {{-- 5. Year --}}
                                 <td class="px-6 py-4 font-mono">{{ $vehicle->year }}</td>
-
-                                {{-- 6. Color --}}
                                 <td class="px-6 py-4">
                                     <span class="inline-block px-2 py-1 rounded border border-gray-500 text-[10px] leading-tight font-semibold">
                                         {{ strtoupper($vehicle->color) }}
                                     </span>
                                 </td>
-
-                                {{-- 7. Actions --}}
                                 <td class="px-6 py-4 text-right">
                                     <div class="flex justify-end items-center gap-4">
                                         <a href="{{ route('vehicles.edit', $vehicle) }}" class="font-medium text-blue-600 dark:text-blue-400 hover:underline">

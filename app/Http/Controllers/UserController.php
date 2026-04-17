@@ -8,19 +8,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-class UserController extends Controller
-{
-    /**
-     * Check if admin
-     */
+class UserController extends Controller {
+
     private function isAdmin()
 {
     return Auth::check() && Auth::user()->role === 'admin';
 }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         if (!$this->isAdmin()) {
@@ -31,9 +25,6 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         if (!$this->isAdmin()) {
@@ -44,17 +35,14 @@ class UserController extends Controller
     }
 
     public function show(User $user)
-{
-    if (!$this->isAdmin()) {
-        return redirect('/dashboard');
+    {
+        if (!$this->isAdmin()) {
+            return redirect('/dashboard');
+        }
+
+        return view('users.show', compact('user'));
     }
 
-    return view('users.show', compact('user'));
-}
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if (!$this->isAdmin()) {
@@ -78,9 +66,6 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User created successfully!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
         if (!$this->isAdmin()) {
@@ -90,9 +75,6 @@ class UserController extends Controller
         return view('users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, User $user)
     {
         if (!$this->isAdmin()) {
@@ -124,16 +106,12 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
         if (!$this->isAdmin()) {
             return redirect('/dashboard');
         }
 
-        // Bawal i-delete ang sarili
         if (Auth::user()->id === $user->id) {
             return redirect()->route('users.index')
                 ->with('error', 'You cannot delete your own account while logged in!');

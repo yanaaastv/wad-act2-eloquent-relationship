@@ -8,12 +8,10 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            {{-- STATS SECTION --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 
                 @if(auth()->user()->role === 'admin')
 
-                    {{-- ADMIN VIEW --}}
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
                         <p class="text-sm text-gray-500 dark:text-gray-400 uppercase">Total Customers</p>
                         <p class="text-3xl font-bold">{{ \App\Models\Customer::count() }}</p>
@@ -36,7 +34,6 @@
 
                 @else
 
-                    {{-- USER VIEW --}}
                     @php
                         $customer = auth()->user()->customer;
                     @endphp
@@ -58,7 +55,6 @@
                 @endif
             </div>
 
-            {{-- CONTENT CARD --}}
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
 

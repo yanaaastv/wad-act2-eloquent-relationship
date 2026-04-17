@@ -32,7 +32,6 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="overflow-x-auto">
-                    {{-- Ginamit ko ang 'table-fixed' para siguradong pantay ang columns --}}
                     <table class="w-full text-left text-sm text-gray-600 dark:text-gray-300 table-fixed">
                         <thead class="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 text-xs uppercase text-gray-500 dark:text-gray-400">
                             <tr>
@@ -45,7 +44,6 @@
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($customers as $customer)
                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200">
-                                {{-- FIX: Inayos ko ang ID dito para hindi na mag-duplicate --}}
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-400 font-mono">
                                     #{{ $customer->id }}
                                 </td>
@@ -64,11 +62,10 @@
                                             Edit
                                         </a>
 
-                                        {{-- Delete button - Admin only protection --}}
                                         @if(auth()->user()->role === 'admin')
                                         <form action="{{ route('customers.destroy', $customer) }}" method="POST" class="m-0 p-0 inline-block">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="font-medium text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors" onclick="return confirm('Sigurado ka ba?')">
+                                            <button type="submit" class="font-medium text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors" onclick="return confirm('Are you sure you want to delete this customer? This action cannot be undone.')">
                                                 Delete
                                             </button>
                                         </form>

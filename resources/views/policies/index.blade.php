@@ -59,7 +59,7 @@
 
                                     <td class="px-6 py-4 whitespace-nowrap text-right flex justify-end gap-4">
 
-                                        {{-- ADMIN ONLY ACTIONS --}}
+                                        
                                         @if(auth()->user()->role === 'admin')
                                             <a href="{{ route('policies.edit', $policy) }}"
                                                class="text-blue-600 dark:text-blue-400 hover:underline">

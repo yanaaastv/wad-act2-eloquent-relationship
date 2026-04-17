@@ -39,7 +39,7 @@
     </main>
 
     <footer class="p-6 text-center text-gray-500 text-sm">
-        &copy; 2026 Activity 2 - Insurance System
+        &copy; 2026 Activity 3 - Insurance System
     </footer>
 
 </body>
